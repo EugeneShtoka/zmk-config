@@ -14,6 +14,10 @@
 #include <dt-bindings/zmk/rgb.h>
 
 / {
+    chosen {
+        zmk,physical-layout = &five_col_layout;
+    };
+
     behaviors {
         // Home row mods with balanced timing
         hm: homerow_mods {
