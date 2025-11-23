@@ -37,8 +37,8 @@
         // Layer 0: Hands Down Neu with home row mods
         base {
             bindings = <
-                &kp W      &kp F      &kp M      &kp P      &kp V          &kp SLASH  &kp DOT    &kp Q      &kp QUOT   &kp Z
-                &hm LGUI R &hm LALT S &hm LCTRL N &hm LSHFT T &kp B         &kp COMMA &hm RSHFT A &hm RCTRL E &hm RALT I &hm RGUI H
+                &kp W      &kp F      &kp M      &kp P      &kp V          &kp SLASH  &kp DOT    &kp Q      &kp J   &kp Z
+                &hm LGUI R &hm LALT S &hm LCTRL N &hm LSHFT T &kp B         &kp QUOT &hm RSHFT A &hm RCTRL E &hm RALT I &hm RGUI H
                 &kp X      &kp C      &kp L      &kp D      &kp G          &kp MINUS  &kp U      &kp O      &kp Y      &kp K
                                       &lt 3 ESC  &lt 1 BSPC &lt 2 TAB      &lt 2 SPACE &lt 1 ENTER &lt 3 DEL
             >;
