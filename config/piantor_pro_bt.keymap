@@ -185,89 +185,102 @@
         compatible = "zmk,keymap";
 
         // Layer 0: Hands Down Neu with home row mods
+        // Top:    W    F    M    P    V         {→}    `→'    Q    J    Z
+        // Home:   R    S    N    T    B         [→]    A      E    I    H
+        // Bottom: X    C    L    D    G         (→)    U      O    Y    K
+        // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         base {
             bindings = <
-                &kp W      &kp F      &kp M      &kp P      &kp V          &td_brace  &td_grave_quot &kp Q      &kp J   &kp Z
-                &hm LGUI R &hm LALT S &hm LCTRL N &hm LSHFT T &kp B        &td_bracket &hm RSHFT A &hm RCTRL E &hm RALT I &hm RGUI H
-                &kp X      &kp C      &kp L      &kp D      &kp G          &td_paren  &kp U      &kp O      &kp Y      &kp K
-                                      &lt 5 ESC  &lt 3 BSPC &lt 4 TAB      &lt 4 SPACE &lt 3 ENTER &lt 5 DEL
+                &kp W        &kp F        &kp M        &kp P        &kp V              &td_brace       &td_grave_quot  &kp Q        &kp J        &kp Z
+                &hm LGUI R   &hm LALT S   &hm LCTRL N  &hm LSHFT T  &kp B              &td_bracket     &hm RSHFT A     &hm RCTRL E  &hm RALT I   &hm RGUI H
+                &kp X        &kp C        &kp L        &kp D        &kp G              &td_paren       &kp U           &kp O        &kp Y        &kp K
+                                          &lt 5 ESC    &lt 3 BSPC   &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
         // Layer 1: Russian (optimized layout - requires OS set to Russian ЙЦУКЕН)
-        // Top:    В  К  М  П  Ф     Ж  Ц  Ч  Ш  Щ
-        // Home:   Р  А  Н  Т  Б     О  Е/Ё  И/Й  С  Л
-        // Bottom: Я  У  Д  Г  З     Ы  Э  Ю  Х  Ь/Ъ
+        // Top:    В    К    М    П    Ф         Ж      Ц      Ч      Ш      Щ
+        // Home:   Р    А    Н    Т    Б         О      Е/Ё    И/Й    С      Л
+        // Bottom: Я    У    Д    Г    З         Ы      Э      Ю      Х      Ь/Ъ
+        // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         russian {
             bindings = <
-                &kp D      &kp R      &kp V      &kp G      &kp A          &kp SEMI   &kp W      &kp X      &kp I      &kp O
-                &hm LGUI H &hm LALT F &hm LCTRL Y &hm LSHFT N &kp COMMA     &kp J      &hm_ye RSHFT 0 &hm_i RCTRL 0 &hm RALT C &hm RGUI K
-                &kp Z      &kp U      &kp L      &kp DOT    &kp P          &kp S      &kp SQT    &kp DOT    &kp LBKT   &ru_hs
-                                      &lt 5 ESC  &lt 3 BSPC &lt 4 TAB      &lt 4 SPACE &lt 3 ENTER &lt 5 DEL
+                &kp D        &kp R        &kp V        &kp G        &kp A              &kp SEMI        &kp W           &kp X        &kp I        &kp O
+                &hm LGUI H   &hm LALT F   &hm LCTRL Y  &hm LSHFT N  &kp COMMA          &kp J           &hm_ye RSHFT 0  &hm_i RCTRL 0  &hm RALT C &hm RGUI K
+                &kp Z        &kp U        &kp L        &kp DOT      &kp P              &kp S           &kp SQT         &kp DOT      &kp LBKT     &ru_hs
+                                          &lt 5 ESC    &lt 3 BSPC   &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
         // Layer 2: Hebrew (standard Israeli layout - requires OS set to Hebrew)
-        // Standard Israeli keyboard mapping to QWERTY positions
-        // Top:    ק ר א ט ו ן ם פ ך ף
-        // Home:   ש ד ג כ ע י ח ל ס ב
-        // Bottom: ז נ ה מ צ ת ץ
+        // Top:    ק    ר    א    ט    ו         ן      ם      פ      ך      ף
+        // Home:   ש    ד    ג    כ    ע         י      ח      ל      ס      ב
+        // Bottom: ז    נ    ה    מ    צ         ת      ץ      ,      .      /
+        // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         hebrew {
             bindings = <
-                &kp E      &kp R      &kp T      &kp Y      &kp U          &kp I      &kp O      &kp P      &kp LBKT   &kp RBKT
-                &hm LGUI A &hm LALT S &hm LCTRL D &hm LSHFT F &kp G        &kp H      &hm RSHFT J &hm RCTRL K &hm RALT L &hm RGUI SEMI
-                &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp SLASH
-                                      &lt 5 ESC  &lt 3 BSPC &lt 4 TAB      &lt 4 SPACE &lt 3 ENTER &lt 5 DEL
+                &kp E        &kp R        &kp T        &kp Y        &kp U              &kp I           &kp O           &kp P        &kp LBKT     &kp RBKT
+                &hm LGUI A   &hm LALT S   &hm LCTRL D  &hm LSHFT F  &kp G              &kp H           &hm RSHFT J     &hm RCTRL K  &hm RALT L   &hm RGUI SEMI
+                &kp Z        &kp X        &kp C        &kp V        &kp B              &kp N           &kp M           &kp COMMA    &kp DOT      &kp SLASH
+                                          &lt 5 ESC    &lt 3 BSPC   &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
         // Layer 3: Numbers & Navigation
+        // Top:    1    2    3    4    5         Cut    Copy   Paste  Undo   Redo
+        // Home:   6    7    8    9    0         Ins    Home   PgDn   PgUp   End
+        // Bottom: Wd←  Wd→  W-Bs W-Del -        -      ←      ↓      ↑      →
+        // Thumbs:           -    -    -         -      -      -
         nav_num {
             bindings = <
-                &kp N1     &kp N2     &kp N3     &kp N4     &kp N5   &kp LC(X) &kp LC(C) &kp LC(V) &kp LC(Z) &kp LC(Y)
-                &hm LGUI N6     &hm LALT N7     &hm LCTRL N8     &hm LSHFT N9     &kp N0   &hm RGUI INS   &kp HOME   &hm RSHFT PG_DN  &hm RCTRL PG_UP  &hm RALT END    
-                &kp LC(LEFT) &kp LC(RIGHT) &kp LC(BSPC) &kp LC(DEL) &trans   &trans     &kp LEFT &kp DOWN &kp UP &kp RIGHT
-                                      &trans     &trans     &trans         &trans     &trans     &trans
+                &kp N1           &kp N2           &kp N3           &kp N4           &kp N5             &kp LC(X)       &kp LC(C)       &kp LC(V)       &kp LC(Z)       &kp LC(Y)
+                &hm LGUI N6      &hm LALT N7      &hm LCTRL N8     &hm LSHFT N9     &kp N0             &hm RGUI INS    &kp HOME        &hm RSHFT PG_DN &hm RCTRL PG_UP &hm RALT END
+                &kp LC(LEFT)     &kp LC(RIGHT)    &kp LC(BSPC)     &kp LC(DEL)      &trans             &trans          &kp LEFT        &kp DOWN        &kp UP          &kp RIGHT
+                                                  &trans           &trans           &trans             &trans          &trans          &trans
             >;
         };
 
         // Layer 4: Symbols & Punctuation
-        // Punctuation from removed tap-dances:
-        // Top:    @  #  -  +  %     {→}  `→'  ?  &  *
-        // Home:   :  \  !=  ~  ;     [→]  =  $  ^  |
-        // Bottom: !  ,  <  .  >     (→)  _  /  #  "
+        // Top:    @    #    -    +    %         {→}    `→'    ?      &      *
+        // Home:   :    \    !=   ~    ;         [→]    =      $      ^      |
+        // Bottom: →En  →He  →Ru  _    -         (→)    >      /      #      "
+        // Thumbs:           -    -    -         -      -      -
         sym {
             bindings = <
-                &kp AT     &kp HASH   &kp MINUS  &kp PLUS   &kp PRCNT      &td_brace  &td_grave_quot &kp QMARK  &kp AMPS   &kp STAR
-                &hm LGUI COLON &hm LALT BSLH &not_equal &hm LSHFT TILDE &kp SEMI  &td_bracket  &hm RSHFT EQUAL &hm RCTRL DLLR &hm RALT CARET &hm RGUI PIPE
-                &switch_en &switch_he &switch_ru &kp UNDER  &trans         &td_paren  &kp GT     &kp SLASH  &kp HASH   &kp DQT
-                                      &trans     &trans     &trans         &trans     &trans     &trans
+                &kp AT           &kp HASH         &kp MINUS        &kp PLUS         &kp PRCNT          &td_brace       &td_grave_quot  &kp QMARK       &kp AMPS        &kp STAR
+                &hm LGUI COLON   &hm LALT BSLH    &not_equal       &hm LSHFT TILDE  &kp SEMI           &td_bracket     &hm RSHFT EQUAL &hm RCTRL DLLR  &hm RALT CARET  &hm RGUI PIPE
+                &switch_en       &switch_he       &switch_ru       &kp UNDER        &trans             &td_paren       &kp GT          &kp SLASH       &kp HASH        &kp DQT
+                                                  &trans           &trans           &trans             &trans          &trans          &trans
             >;
         };
 
         // Layer 5: Function keys, Bluetooth & Media
+        // Top:    F1   F2   F3   F4   F5        F6     F7     F8     F9     F10
+        // Home:   Mute Vol- Vol+ Shft RGB       -      Bri-   Bri+   F11    F12
+        // Bottom: Play Pause Stop Prev Next     BTClr  BT0    BT1    S-PSc  PScrn
+        // Thumbs:           -    -    -         -      -      -
         fun_bt {
             bindings = <
-                &kp F1     &kp F2     &kp F3     &kp F4     &kp F5         &kp F6     &kp F7     &kp F8     &kp F9     &kp F10
-                &hm LGUI C_MUTE &hm LALT C_VOL_DN &hm LCTRL C_VOL_UP &kp LSHFT &rgb_ug RGB_TOG   &trans    &hm RSHFT C_BRI_DN &hm RCTRL C_BRI_UP &hm RALT F11 &hm RGUI F12
-                &kp C_PLAY &kp C_PAUSE &kp C_STOP &kp C_PREV &kp C_NEXT    &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &kp LS(PSCRN) &kp PSCRN
-                                      &trans     &trans     &trans         &trans     &trans     &trans
+                &kp F1           &kp F2             &kp F3              &kp F4      &kp F5                  &kp F6          &kp F7              &kp F8              &kp F9           &kp F10
+                &hm LGUI C_MUTE  &hm LALT C_VOL_DN  &hm LCTRL C_VOL_UP  &kp LSHFT   &rgb_ug RGB_TOG         &trans          &hm RSHFT C_BRI_DN  &hm RCTRL C_BRI_UP  &hm RALT F11     &hm RGUI F12
+                &kp C_PLAY       &kp C_PAUSE        &kp C_STOP          &kp C_PREV  &kp C_NEXT              &bt BT_CLR      &bt BT_SEL 0        &bt BT_SEL 1        &kp LS(PSCRN)    &kp PSCRN
+                                                    &trans              &trans      &trans                  &trans          &trans              &trans
             >;
         };
 
-        // Layer 6: Mouse Navigation with Warping
-        // Left hand: Modifiers + Scroll + Buttons
-        // Right hand: Warp + Movement
-        // Top:    Esc  Tab     -       -       -           -       Back    Fwd     -       -
+        // Layer 6: Mouse Navigation
+        // Left hand: Modifiers + clipboard shortcuts
+        // Right hand: Mouse buttons + movement + scrolling
+        // Top:    Esc  Tab     Cut     Copy    Paste       -       Back    Fwd     -       -
         // Home:   Gui  Alt     Ctrl    Shft    Enter       -       Ms←     Ms↓     Ms↑     Ms→
-        // Bottom: -    -       -       -       -           -       Scrl←   Scrl↓   Scrl↑   Scrl→
+        // Bottom: -    -       -       Undo    Redo        -       Scrl←   Scrl↓   Scrl↑   Scrl→
         // Thumbs:              MClk    LClk    RClk        RClk    LClk    MClk
         mouse {
             bindings = <
-                &kp ESC    &kp TAB    &trans    &trans   &trans         &trans &mkp MB4   &mkp MB5 &trans  &trans
-                &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &kp ENTER      &trans &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT
-                &trans   &trans   &trans   &trans   &trans      &trans   &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_UP &msc SCRL_RIGHT
-                                      &mkp MB3   &mkp LCLK  &mkp RCLK      &mkp RCLK  &mkp LCLK  &mkp MB3
+                &kp ESC      &kp TAB      &kp LC(X)   &kp LC(C)   &kp LC(V)          &trans         &mkp MB4         &mkp MB5         &trans           &trans
+                &kp LGUI     &kp LALT     &kp LCTRL   &kp LSHFT   &kp ENTER          &trans         &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP     &mmv MOVE_RIGHT
+                &trans       &trans       &trans      &kp LC(Z)   &kp LC(Y)          &trans         &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT
+                                          &mkp MB3    &mkp LCLK   &mkp RCLK          &mkp RCLK      &mkp LCLK        &mkp MB3
             >;
         };
     };
