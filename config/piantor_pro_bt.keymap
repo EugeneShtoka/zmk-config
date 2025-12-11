@@ -255,13 +255,13 @@
             >;
         };
 
-        Layer 6: Mouse Navigation with Warping
-        Left hand: Modifiers + Scroll + Buttons
-        Right hand: Warp + Movement
-        Top:    Esc  Tab     -       -       -           -       Back    Fwd     -       -
-        Home:   Gui  Alt     Ctrl    Shft    Enter       -       Ms←     Ms↓     Ms↑     Ms→
-        Bottom: -    -       -       -       -           -       Scrl←   Scrl↓   Scrl↑   Scrl→
-        Thumbs:              MClk    LClk    RClk        RClk    LClk    MClk
+        // Layer 6: Mouse Navigation with Warping
+        // Left hand: Modifiers + Scroll + Buttons
+        // Right hand: Warp + Movement
+        // Top:    Esc  Tab     -       -       -           -       Back    Fwd     -       -
+        // Home:   Gui  Alt     Ctrl    Shft    Enter       -       Ms←     Ms↓     Ms↑     Ms→
+        // Bottom: -    -       -       -       -           -       Scrl←   Scrl↓   Scrl↑   Scrl→
+        // Thumbs:              MClk    LClk    RClk        RClk    LClk    MClk
         mouse {
             bindings = <
                 &kp ESC    &kp TAB    &trans    &trans   &trans         &trans &mkp MB4   &mkp MB5 &trans  &trans
