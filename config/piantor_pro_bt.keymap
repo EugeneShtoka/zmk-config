@@ -17,14 +17,20 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/mouse.h>
 
+// Key position groups for 36-key layout
+#define KEYS_L 0 1 2 3 4 10 11 12 13 14 20 21 22 23 24  // left hand keys
+#define KEYS_R 5 6 7 8 9 15 16 17 18 19 25 26 27 28 29  // right hand keys
+#define THUMBS_L 30 31 32  // left thumb keys
+#define THUMBS_R 33 34 35  // right thumb keys
+
 / {
     chosen {
-        zmk,physical-layout = &five_col_layout;
+        zmk,physical-layout = &default_layout;
     };
 
     behaviors {
-        // Home row mods with balanced timing
-        hm: homerow_mods {
+        // Left hand home row mods with chordal hold
+        hml: homerow_mods_left {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
@@ -32,6 +38,21 @@
             require-prior-idle-ms = <150>;
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
+            hold-trigger-on-release;
+        };
+
+        // Right hand home row mods with chordal hold
+        hmr: homerow_mods_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+            hold-trigger-on-release;
         };
 
         // Russian hard/soft sign tap-dance (Ь/Ъ)
@@ -58,6 +79,46 @@
             bindings = <&kp B>, <&kp Q>;
         };
 
+        // Hebrew peh/final-peh tap-dance (פ/ף)
+        he_peh: hebrew_peh_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp P>, <&kp SEMI>;
+        };
+
+        // Hebrew mem/final-mem tap-dance (מ/ם)
+        he_mem: hebrew_mem_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp N>, <&kp O>;
+        };
+
+        // Hebrew nun/final-nun tap-dance (נ/ן)
+        he_nun: hebrew_nun_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp B>, <&kp I>;
+        };
+
+        // Hebrew tsadi/final-tsadi tap-dance (צ/ץ)
+        he_tsadi: hebrew_tsadi_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp M>, <&kp DOT>;
+        };
+
+        // Hebrew kaf/final-kaf tap-dance (כ/ך)
+        he_kaf: hebrew_kaf_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp F>, <&kp L>;
+        };
+
         // Home row mod with ye/yo tap-dance (hold=Shift, tap=Е/Ё)
         hm_ye: homerow_ye {
             compatible = "zmk,behavior-hold-tap";
@@ -67,6 +128,8 @@
             require-prior-idle-ms = <150>;
             flavor = "balanced";
             bindings = <&kp>, <&ru_ye>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+            hold-trigger-on-release;
         };
 
         // Home row mod with i/short-i tap-dance (hold=Ctrl, tap=И/Й)
@@ -78,6 +141,34 @@
             require-prior-idle-ms = <150>;
             flavor = "balanced";
             bindings = <&kp>, <&ru_i>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+            hold-trigger-on-release;
+        };
+
+        // Home row mod with nun/final-nun tap-dance (hold=Ctrl, tap=נ/ן)
+        hm_nun: homerow_nun {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&he_nun>;
+            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
+            hold-trigger-on-release;
+        };
+
+        // Home row mod with kaf/final-kaf tap-dance (hold=Gui, tap=כ/ך)
+        hm_kaf: homerow_kaf {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&he_kaf>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+            hold-trigger-on-release;
         };
 
         // Bracket/brace tap-dances
@@ -112,28 +203,47 @@
 
     combos {
         compatible = "zmk,combos";
-    
+
+        // Language switching combos
+        combo_switch_russian {
+            timeout-ms = <50>;
+            key-positions = <2 3>;  // M + P
+            bindings = <&switch_ru>;
+        };
+
+        combo_switch_english {
+            timeout-ms = <50>;
+            key-positions = <12 13>;  // N + T
+            bindings = <&switch_en>;
+        };
+
+        combo_switch_hebrew {
+            timeout-ms = <50>;
+            key-positions = <22 23>;  // L + D
+            bindings = <&switch_he>;
+        };
+
         // Toggle nav_num layer when both layer 3 modifiers are pressed
         combo_nav_num_toggle {
             timeout-ms = <50>;
             key-positions = <31 34>;  // lt 3 BSPC (left thumb) + lt 3 ENTER (right thumb)
             bindings = <&tog 3>;
         };
-    
+
         // Toggle sym layer when both layer 4 modifiers are pressed
         combo_sym_toggle {
             timeout-ms = <50>;
             key-positions = <32 33>;  // lt 4 TAB (left thumb) + lt 4 SPACE (right thumb)
             bindings = <&tog 4>;
         };
-    
+
         // Toggle fun layer when both layer 5 modifiers are pressed
         combo_fun_toggle {
             timeout-ms = <50>;
             key-positions = <30 35>;  // lt 5 ESC (left thumb) + lt 5 DEL (right thumb)
             bindings = <&tog 5>;
         };
-    
+
         // Toggle mouse layer when grave/quote + Q are pressed
         combo_mouse_toggle {
             timeout-ms = <50>;
@@ -191,38 +301,38 @@
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         base {
             bindings = <
-                &kp W        &kp F        &kp M        &kp P        &kp V              &td_brace       &td_grave_quot  &kp Q        &kp J        &kp Z
-                &hm LGUI R   &hm LALT S   &hm LCTRL N  &hm LSHFT T  &kp B              &td_bracket     &hm RSHFT A     &hm RCTRL E  &hm RALT I   &hm RGUI H
-                &kp X        &kp C        &kp L        &kp D        &kp G              &td_paren       &kp U           &kp O        &kp Y        &kp K
-                                          &lt 5 ESC    &lt 3 BSPC   &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
+                &kp W         &kp F         &kp M         &kp P         &kp V              &td_brace       &td_grave_quot  &kp Q         &kp J         &kp Z
+                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &kp B              &td_bracket     &hmr RSHFT A    &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
+                &kp X         &kp C         &kp L         &kp D         &kp G              &td_paren       &kp U           &kp O         &kp Y         &kp K
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
-        // Layer 1: Russian (optimized layout - requires OS set to Russian ЙЦУКЕН)
-        // Top:    В    К    М    П    Ф         Ж      Ц      Ч      Ш      Щ
-        // Home:   Р    А    Н    Т    Б         О      Е/Ё    И/Й    С      Л
-        // Bottom: Я    У    Д    Г    З         Ы      Э      Ю      Х      Ь/Ъ
+        // Layer 1: Russian (phonetic layout based on Hands Down Neu - requires OS set to Russian ЙЦУКЕН)
+        // Top:    Ш    Ф    М    П    В         Щ      Э      Я      Ж      З
+        // Home:   Р    С    Н    Т    Б         Ы      А      Е/Ё    И/Й    Х
+        // Bottom: Ч    Ц    Л    Д    Г         Ь/Ъ    Ю      О      У      К
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         russian {
             bindings = <
-                &kp D        &kp R        &kp V        &kp G        &kp A              &kp SEMI        &kp W           &kp X        &kp I        &kp O
-                &hm LGUI H   &hm LALT F   &hm LCTRL Y  &hm LSHFT N  &kp COMMA          &kp J           &hm_ye RSHFT 0  &hm_i RCTRL 0  &hm RALT C &hm RGUI K
-                &kp Z        &kp U        &kp L        &kp DOT      &kp P              &kp S           &kp SQT         &kp DOT      &kp LBKT     &ru_hs
-                                          &lt 5 ESC    &lt 3 BSPC   &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
+                &kp I         &kp F         &kp V         &kp G         &kp D              &kp O           &kp SQT          &kp Z          &kp SEMI       &kp P
+                &hml LGUI H   &hml LALT C   &hml LCTRL Y  &hml LSHFT N  &kp COMMA          &kp S           &hmr RSHFT F     &hm_ye RCTRL 0 &hm_i RALT 0   &hmr RGUI LBKT
+                &kp X         &kp W         &kp K         &kp L         &kp U              &ru_hs          &kp DOT          &kp J          &kp E          &kp R
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
             >;
         };
 
-        // Layer 2: Hebrew (standard Israeli layout - requires OS set to Hebrew)
-        // Top:    ק    ר    א    ט    ו         ן      ם      פ      ך      ף
-        // Home:   ש    ד    ג    כ    ע         י      ח      ל      ס      ב
-        // Bottom: ז    נ    ה    מ    צ         ת      ץ      ,      .      /
+        // Layer 2: Hebrew (phonetic layout based on Hands Down Neu - requires OS set to Hebrew)
+        // Top:    ש    -    מ/ם  פ/ף  ת         {→}    `→'    -      ה      ז
+        // Home:   ר    ס    נ/ן  ט    ב         [→]    ע      א      י      ח
+        // Bottom: כ/ך  צ/ץ  ל    ד    ג         (→)    -      ו      -      ק
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         hebrew {
             bindings = <
-                &kp E        &kp R        &kp T        &kp Y        &kp U              &kp I           &kp O           &kp P        &kp LBKT     &kp RBKT
-                &hm LGUI A   &hm LALT S   &hm LCTRL D  &hm LSHFT F  &kp G              &kp H           &hm RSHFT J     &hm RCTRL K  &hm RALT L   &hm RGUI SEMI
-                &kp Z        &kp X        &kp C        &kp V        &kp B              &kp N           &kp M           &kp COMMA    &kp DOT      &kp SLASH
-                                          &lt 5 ESC    &lt 3 BSPC   &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
+                &kp A         &trans        &he_mem       &he_peh       &kp COMMA          &td_brace       &td_grave_quot   &trans        &kp V         &kp Z
+                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0  &hml LSHFT Y  &kp C           &td_bracket     &hmr RSHFT G     &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
+                &he_kaf       &he_tsadi     &kp K         &kp S         &kp D              &td_paren       &trans           &kp U         &trans        &kp E
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
             >;
         };
 
@@ -233,24 +343,24 @@
         // Thumbs:           -    -    -         -      -      -
         nav_num {
             bindings = <
-                &kp N1           &kp N2           &kp N3           &kp N4           &kp N5             &kp LC(X)       &kp LC(C)       &kp LC(V)       &kp LC(Z)       &kp LC(Y)
-                &hm LGUI N6      &hm LALT N7      &hm LCTRL N8     &hm LSHFT N9     &kp N0             &hm RGUI INS    &kp HOME        &hm RSHFT PG_DN &hm RCTRL PG_UP &hm RALT END
-                &kp LC(LEFT)     &kp LC(RIGHT)    &kp LC(BSPC)     &kp LC(DEL)      &trans             &trans          &kp LEFT        &kp DOWN        &kp UP          &kp RIGHT
-                                                  &trans           &trans           &trans             &trans          &trans          &trans
+                &kp N1           &kp N2           &kp N3           &kp N4           &kp N5             &kp LC(X)        &kp LC(C)        &kp LC(V)        &kp LC(Z)        &kp LC(Y)
+                &hml LGUI N6     &hml LALT N7     &hml LCTRL N8    &hml LSHFT N9    &kp N0             &hmr RGUI INS    &kp HOME         &hmr RSHFT PG_DN &hmr RCTRL PG_UP &hmr RALT END
+                &kp LC(LEFT)     &kp LC(RIGHT)    &kp LC(BSPC)     &kp LC(DEL)      &trans             &trans           &kp LEFT         &kp DOWN         &kp UP           &kp RIGHT
+                                                  &trans           &trans           &trans             &trans           &trans           &trans
             >;
         };
 
         // Layer 4: Symbols & Punctuation
         // Top:    @    #    -    +    %         {→}    `→'    ?      &      *
         // Home:   :    \    !=   ~    ;         [→]    =      $      ^      |
-        // Bottom: →En  →He  →Ru  _    -         (→)    >      /      #      "
+        // Bottom: -    ,    <    .    >         (→)    >      /      #      "
         // Thumbs:           -    -    -         -      -      -
         sym {
             bindings = <
-                &kp AT           &kp HASH         &kp MINUS        &kp PLUS         &kp PRCNT          &td_brace       &td_grave_quot  &kp QMARK       &kp AMPS        &kp STAR
-                &hm LGUI COLON   &hm LALT BSLH    &not_equal       &hm LSHFT TILDE  &kp SEMI           &td_bracket     &hm RSHFT EQUAL &hm RCTRL DLLR  &hm RALT CARET  &hm RGUI PIPE
-                &switch_en       &switch_he       &switch_ru       &kp UNDER        &trans             &td_paren       &kp GT          &kp SLASH       &kp HASH        &kp DQT
-                                                  &trans           &trans           &trans             &trans          &trans          &trans
+                &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT          &td_brace       &td_grave_quot   &kp QMARK        &kp AMPS         &kp STAR
+                &hml LGUI COLON   &hml LALT BSLH    &not_equal        &hml LSHFT TILDE  &kp SEMI           &td_bracket     &hmr RSHFT EQUAL &hmr RCTRL DLLR  &hmr RALT CARET  &hmr RGUI PIPE
+                &trans            &kp COMMA         &kp LT            &kp DOT           &kp GT             &td_paren       &kp GT           &kp SLASH        &kp HASH         &kp DQT
+                                                    &trans            &trans            &trans             &trans          &trans           &trans
             >;
         };
 
@@ -261,10 +371,10 @@
         // Thumbs:           -    -    -         -      -      -
         fun_bt {
             bindings = <
-                &kp F1           &kp F2             &kp F3              &kp F4      &kp F5                  &kp F6          &kp F7              &kp F8              &kp F9           &kp F10
-                &hm LGUI C_MUTE  &hm LALT C_VOL_DN  &hm LCTRL C_VOL_UP  &kp LSHFT   &rgb_ug RGB_TOG         &trans          &hm RSHFT C_BRI_DN  &hm RCTRL C_BRI_UP  &hm RALT F11     &hm RGUI F12
-                &kp C_PLAY       &kp C_PAUSE        &kp C_STOP          &kp C_PREV  &kp C_NEXT              &bt BT_CLR      &bt BT_SEL 0        &bt BT_SEL 1        &kp LS(PSCRN)    &kp PSCRN
-                                                    &trans              &trans      &trans                  &trans          &trans              &trans
+                &kp F1            &kp F2              &kp F3               &kp F4      &kp F5                  &kp F6          &kp F7               &kp F8               &kp F9            &kp F10
+                &hml LGUI C_MUTE  &hml LALT C_VOL_DN  &hml LCTRL C_VOL_UP  &kp LSHFT   &rgb_ug RGB_TOG         &trans          &hmr RSHFT C_BRI_DN  &hmr RCTRL C_BRI_UP  &hmr RALT F11     &hmr RGUI F12
+                &kp C_PLAY        &kp C_PAUSE         &kp C_STOP           &kp C_PREV  &kp C_NEXT              &bt BT_CLR      &bt BT_SEL 0         &bt BT_SEL 1         &kp LS(PSCRN)     &kp PSCRN
+                                                      &trans               &trans      &trans                  &trans          &trans               &trans
             >;
         };
 
