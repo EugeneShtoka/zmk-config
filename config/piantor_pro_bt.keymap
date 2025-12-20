@@ -372,15 +372,15 @@
 
         // Layer 4: Symbols & Punctuation
         // Top:    @    #    -    +    %         {→}    `→'    ?      &      *
-        // Home:   :    \    !=   ~    ;         [→]    =      $→€    ^      |
-        // Bottom: !    ,    <    .    >         (→)    _      /      #      "
+        // Home:   :    /    !=   ~    \         [→]    =      $→€    ^      |
+        // Bottom: !    ,    <    .    >         (→)    _      ;      #      "
         // Thumbs:           -    -    -         -      -      -
         sym {
             bindings = <
-                &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT          &td_brace       &td_grave_quot   &kp QMARK        &kp AMPS         &kp STAR
-                &hml LGUI COLON   &hml LALT BSLH    &not_equal        &hml LSHFT TILDE  &kp SEMI           &td_bracket     &hmr RSHFT EQUAL &hm_dollar RCTRL 0 &hmr RALT CARET  &hmr RGUI PIPE
-                &kp EXCL          &kp COMMA         &kp LT            &kp DOT           &kp GT             &td_paren       &kp UNDER        &kp SLASH        &kp HASH         &kp DQT
-                                                    &trans            &trans            &trans             &trans          &trans           &trans
+                &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT           &td_brace       &td_grave_quot      &kp QMARK           &kp AMPS         &kp STAR
+                &hml LGUI COLON   &hml LALT SLASH   &not_equal        &hml LSHFT TILDE  &kp BSLH            &td_bracket     &hm_dollar RSHFT 0  &hmr RCTRL EQUAL    &hmr RALT CARET  &hmr RGUI PIPE
+                &kp EXCL          &kp COMMA         &kp LT            &kp DOT           &kp GT              &td_paren       &kp UNDER           &kp SEMI            &kp HASH         &kp DQT
+                                                    &trans            &trans            &trans              &trans          &trans              &trans
             >;
         };
 
