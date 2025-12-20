@@ -171,6 +171,19 @@
             hold-trigger-on-release;
         };
 
+        // Home row mod with dollar/euro tap-dance (hold=Ctrl, tap=$/€)
+        hm_dollar: homerow_dollar {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&td_dollar_euro>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+            hold-trigger-on-release;
+        };
+
         // Bracket/brace tap-dances
         td_brace: brace_pair {
             compatible = "zmk,behavior-tap-dance";
@@ -198,6 +211,13 @@
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&kp GRAVE>, <&kp APOS>;
+        };
+
+        td_dollar_euro: dollar_euro {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp DLLR>, <&kp RA(N5)>;
         };
     };
 
@@ -352,14 +372,14 @@
 
         // Layer 4: Symbols & Punctuation
         // Top:    @    #    -    +    %         {→}    `→'    ?      &      *
-        // Home:   :    \    !=   ~    ;         [→]    =      $      ^      |
-        // Bottom: -    ,    <    .    >         (→)    >      /      #      "
+        // Home:   :    \    !=   ~    ;         [→]    =      $→€    ^      |
+        // Bottom: !    ,    <    .    >         (→)    _      /      #      "
         // Thumbs:           -    -    -         -      -      -
         sym {
             bindings = <
                 &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT          &td_brace       &td_grave_quot   &kp QMARK        &kp AMPS         &kp STAR
-                &hml LGUI COLON   &hml LALT BSLH    &not_equal        &hml LSHFT TILDE  &kp SEMI           &td_bracket     &hmr RSHFT EQUAL &hmr RCTRL DLLR  &hmr RALT CARET  &hmr RGUI PIPE
-                &trans            &kp COMMA         &kp LT            &kp DOT           &kp GT             &td_paren       &kp GT           &kp SLASH        &kp HASH         &kp DQT
+                &hml LGUI COLON   &hml LALT BSLH    &not_equal        &hml LSHFT TILDE  &kp SEMI           &td_bracket     &hmr RSHFT EQUAL &hm_dollar RCTRL 0 &hmr RALT CARET  &hmr RGUI PIPE
+                &kp EXCL          &kp COMMA         &kp LT            &kp DOT           &kp GT             &td_paren       &kp UNDER        &kp SLASH        &kp HASH         &kp DQT
                                                     &trans            &trans            &trans             &trans          &trans           &trans
             >;
         };
