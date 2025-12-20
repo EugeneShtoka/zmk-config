@@ -349,10 +349,10 @@
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         hebrew {
             bindings = <
-                &kp A         &trans        &he_mem       &he_peh       &kp COMMA          &td_brace       &td_grave_quot   &trans        &kp V         &kp Z
-                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0  &hml LSHFT Y  &kp C           &td_bracket     &hmr RSHFT G     &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
-                &he_kaf       &he_tsadi     &kp K         &kp S         &kp D              &td_paren       &trans           &kp U         &trans        &kp E
-                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
+                &kp A         &trans        &he_mem             &he_peh       &kp COMMA         &td_brace       &td_grave_quot   &trans        &kp V         &kp Z
+                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &kp C             &td_bracket     &hmr RSHFT G     &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
+                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D             &td_paren       &trans           &kp U         &trans        &kp E
+                                            &lt 5 ESC           &lt 3 BSPC    &lt 4 TAB         &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
             >;
         };
 
@@ -363,10 +363,10 @@
         // Thumbs:           -    -    -         -      -      -
         nav_num {
             bindings = <
-                &kp N1           &kp N2           &kp N3           &kp N4           &kp N5             &kp LC(X)        &kp LC(C)        &kp LC(V)        &kp LC(Z)        &kp LC(Y)
-                &hml LGUI N6     &hml LALT N7     &hml LCTRL N8    &hml LSHFT N9    &kp N0             &hmr RGUI INS    &kp HOME         &hmr RSHFT PG_DN &hmr RCTRL PG_UP &hmr RALT END
-                &kp LC(LEFT)     &kp LC(RIGHT)    &kp LC(BSPC)     &kp LC(DEL)      &trans             &trans           &kp LEFT         &kp DOWN         &kp UP           &kp RIGHT
-                                                  &trans           &trans           &trans             &trans           &trans           &trans
+                &kp N1           &kp N2           &kp N3           &kp N4           &kp N5             &kp LC(X)    &kp LC(C)        &kp LC(V)          &kp LC(Z)           &kp LC(Y)
+                &hml LGUI N6     &hml LALT N7     &hml LCTRL N8    &hml LSHFT N9    &kp N0             &kb INS      &hmr RSHFT HOME  &hmr RCTRL PG_DN   &hmr RALT PG_UP     &hmr RGUI END
+                &kp LC(LEFT)     &kp LC(RIGHT)    &kp LC(BSPC)     &kp LC(DEL)      &trans             &trans       &kp LEFT         &kp DOWN           &kp UP              &kp RIGHT
+                                                  &trans           &trans           &trans             &trans       &trans           &trans
             >;
         };
 
