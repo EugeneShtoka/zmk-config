@@ -39,7 +39,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_R THUMBS_R>;
-            hold-trigger-on-release;
+            positional-hold-tap;
         };
 
         // Right hand home row mods with chordal hold
@@ -52,7 +52,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_L THUMBS_L>;
-            hold-trigger-on-release;
+            positional-hold-tap;
         };
 
         // Russian hard/soft sign tap-dance (Ь/Ъ)
@@ -129,7 +129,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&ru_ye>;
             hold-trigger-key-positions = <KEYS_L THUMBS_L>;
-            hold-trigger-on-release;
+            positional-hold-tap;
         };
 
         // Home row mod with i/short-i tap-dance (hold=Ctrl, tap=И/Й)
@@ -142,7 +142,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&ru_i>;
             hold-trigger-key-positions = <KEYS_L THUMBS_L>;
-            hold-trigger-on-release;
+            positional-hold-tap;
         };
 
         // Home row mod with nun/final-nun tap-dance (hold=Ctrl, tap=נ/ן)
@@ -155,7 +155,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&he_nun>;
             hold-trigger-key-positions = <KEYS_R THUMBS_R>;
-            hold-trigger-on-release;
+            positional-hold-tap;
         };
 
         // Home row mod with kaf/final-kaf tap-dance (hold=Gui, tap=כ/ך)
@@ -168,7 +168,7 @@
             flavor = "balanced";
             bindings = <&kp>, <&he_kaf>;
             hold-trigger-key-positions = <KEYS_L THUMBS_L>;
-            hold-trigger-on-release;
+            positional-hold-tap;
         };
 
         // Bracket/brace tap-dances
