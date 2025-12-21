@@ -344,7 +344,7 @@
         nav_num {
             bindings = <
                 &kp N1           &kp N2           &kp N3           &kp N4           &kp N5             &kp LC(X)    &kp LC(C)        &kp LC(V)          &kp LC(Z)           &kp LC(Y)
-                &hml LGUI N6     &hml LALT N7     &hml LCTRL N8    &hml LSHFT N9    &kp N0             &kb INS      &hmr RSHFT HOME  &hmr RCTRL PG_DN   &hmr RALT PG_UP     &hmr RGUI END
+                &hml LGUI N6     &hml LALT N7     &hml LCTRL N8    &hml LSHFT N9    &kp N0             &kp INS      &hmr RSHFT HOME  &hmr RCTRL PG_DN   &hmr RALT PG_UP     &hmr RGUI END
                 &kp LC(LEFT)     &kp LC(RIGHT)    &kp LC(BSPC)     &kp LC(DEL)      &trans             &trans       &kp LEFT         &kp DOWN           &kp UP              &kp RIGHT
                                                   &trans           &trans           &trans             &trans       &trans           &trans
             >;
