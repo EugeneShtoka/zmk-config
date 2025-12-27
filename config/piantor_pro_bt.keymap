@@ -193,6 +193,21 @@
             tapping-term-ms = <200>;
             bindings = <&kp GRAVE>, <&kp APOS>;
         };
+
+        // Custom caps_word that continues on underscore, backspace, and delete
+        caps_word {
+            compatible = "zmk,behavior-caps-word";
+            #binding-cells = <0>;
+            continue-list = <UNDERSCORE BACKSPACE DELETE>;
+        };
+
+        // Bracket morph: [→] normally, _ when shifted (for caps_word)
+        bracket_morph: bracket_underscore {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&td_bracket>, <&kp UNDER>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
 
     combos {
@@ -224,25 +239,18 @@
             bindings = <&tog 3>;
         };
 
-        // Toggle sym layer when both layer 4 modifiers are pressed
+        // Toggle mouse layer when both layer 4 modifiers are pressed
         combo_sym_toggle {
             timeout-ms = <50>;
             key-positions = <32 33>;  // lt 4 TAB (left thumb) + lt 4 SPACE (right thumb)
-            bindings = <&tog 4>;
+            bindings = <&tog 6>;
         };
 
-        // Toggle fun layer when both layer 5 modifiers are pressed
+        // Activate caps_word when both layer 5 modifiers are pressed
         combo_fun_toggle {
             timeout-ms = <50>;
             key-positions = <30 35>;  // lt 5 ESC (left thumb) + lt 5 DEL (right thumb)
-            bindings = <&tog 5>;
-        };
-
-        // Toggle mouse layer when grave/quote + Q are pressed
-        combo_mouse_toggle {
-            timeout-ms = <50>;
-            key-positions = <6 7>;  // td_grave_quot + Q
-            bindings = <&tog 6>;
+            bindings = <&caps_word>;
         };
     };
 
@@ -296,7 +304,7 @@
         base {
             bindings = <
                 &kp W         &kp F         &kp M         &kp P         &kp V              &td_brace       &td_grave_quot  &kp Q         &kp J         &kp Z
-                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &kp B              &td_bracket     &hmr RSHFT A    &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
+                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &kp B              &bracket_morph  &hmr RSHFT A    &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
                 &kp X         &kp C         &kp L         &kp D         &kp G              &td_paren       &kp U           &kp O         &kp Y         &kp K
                                             &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
             >;
@@ -317,43 +325,43 @@
         };
 
         // Layer 2: Hebrew (phonetic layout based on Hands Down Neu - requires OS set to Hebrew)
-        // Top:    ש    -    מ/ם  פ/ף  ת         {→}    `→'    -      ה      ז
+        // Top:    ש    -    מ/ם  פ/ף  ת         (→)    `→'    -      ה      ז
         // Home:   ר    ס    נ/ן  ט    ב         [→]    ע      א      י      ח
-        // Bottom: כ/ך  צ/ץ  ל    ד    ג         (→)    -      ו      -      ק
+        // Bottom: כ/ך  צ/ץ  ל    ד    ג         {→}    -      ו      -      ק
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         hebrew {
             bindings = <
-                &kp A         &trans        &he_mem             &he_peh       &kp COMMA         &td_brace       &td_grave_quot   &trans        &kp V         &kp Z
-                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &kp C             &td_bracket     &hmr RSHFT G     &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
-                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D             &td_paren       &trans           &kp U         &trans        &kp E
+                &kp A         &trans        &he_mem             &he_peh       &kp COMMA         &td_paren       &td_grave_quot   &trans        &kp V         &kp Z
+                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &kp C             &bracket_morph  &hmr RSHFT G     &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
+                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D             &td_brace       &trans           &kp U         &trans        &kp E
                                             &lt 5 ESC           &lt 3 BSPC    &lt 4 TAB         &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
             >;
         };
 
-        // Layer 3: Numbers & Navigation
-        // Top:    1    2    3    4    5         Cut    Copy   Paste  Undo   Redo
-        // Home:   6    7    8    9    0         Ins    Home   PgDn   PgUp   End
-        // Bottom: Wd←  Wd→  W-Bs W-Del -        -      ←      ↓      ↑      →
-        // Thumbs:           -    -    -         -      -      -
+        // Layer 3: Numbers
+        // Top:    +        -       *       /       ^           (->)    "       sqrt    l       e
+        // Home:   1        2       3       4       5           6       7       8       9       0
+        // Bottom: Home     PgDn    PgUp    End     Ins         =       ←       ↓       ↑       →
+        // Thumbs:                  -       -       -           -       -       -
         nav_num {
             bindings = <
-                &kp N1           &kp N2           &kp N3           &kp N4           &kp N5             &kp LC(X)    &kp LC(C)        &kp LC(V)          &kp LC(Z)           &kp LC(Y)
-                &hml LGUI N6     &hml LALT N7     &hml LCTRL N8    &hml LSHFT N9    &kp N0             &kp INS      &hmr RSHFT HOME  &hmr RCTRL PG_DN   &hmr RALT PG_UP     &hmr RGUI END
-                &kp LC(LEFT)     &kp LC(RIGHT)    &kp LC(BSPC)     &kp LC(DEL)      &trans             &trans       &kp LEFT         &kp DOWN           &kp UP              &kp RIGHT
+                &kp PLUS         &kp MINUS        &kp STAR         &kp SLASH        &kp CARET          &td_paren    &kp DQT          &trans             &kp L               &kp E
+                &hml LGUI N1     &hml LALT N2     &hml LCTRL N3    &hml LSHFT N4    &kp N5             &kp N6       &hmr RSHFT N7    &hmr RCTRL N8      &hmr RALT N9        &hmr RGUI N0
+                &kp HOME         &kp PG_DN        &kp PG_UP        &kp END          &kp INS            &kp EQUAL    &kp LEFT         &kp DOWN           &kp UP              &kp RIGHT
                                                   &trans           &trans           &trans             &trans       &trans           &trans
             >;
         };
 
         // Layer 4: Symbols & Punctuation
-        // Top:    @    #    -    +    %         {→}    `→'    ?      &      *
+        // Top:    @    #    -    +    %         (→)    `→'    ?      &      *
         // Home:   :    /    !=   ~    \         [→]    =      $      ^      |
-        // Bottom: !    ,    <    .    >         (→)    _      ;      #      "
+        // Bottom: !    ,    <    .    >         {→}    _      ;      #      "
         // Thumbs:           -    -    -         -      -      -
         sym {
             bindings = <
-                &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT           &td_brace       &td_grave_quot      &kp QMARK           &kp AMPS         &kp STAR
-                &hml LGUI COLON   &hml LALT SLASH   &not_equal        &hml LSHFT TILDE  &kp BSLH            &td_bracket     &hmr RSHFT DLLR     &hmr RCTRL EQUAL    &hmr RALT CARET  &hmr RGUI PIPE
-                &kp EXCL          &kp COMMA         &kp LT            &kp DOT           &kp GT              &td_paren       &kp UNDER           &kp SEMI            &kp HASH         &kp DQT
+                &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT           &td_paren       &td_grave_quot      &kp QMARK           &kp AMPS         &kp STAR
+                &hml LGUI COLON   &hml LALT SLASH   &not_equal        &hml LSHFT TILDE  &kp BSLH            &bracket_morph  &hmr RSHFT EQUAL    &hmr RCTRL DLLR     &hmr RALT CARET  &hmr RGUI PIPE
+                &kp EXCL          &kp COMMA         &kp LT            &kp DOT           &kp GT              &td_brace       &kp UNDER           &kp SEMI            &kp HASH         &kp DQT
                                                     &trans            &trans            &trans              &trans          &trans              &trans
             >;
         };
