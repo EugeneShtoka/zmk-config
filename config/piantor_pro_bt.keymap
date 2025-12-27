@@ -383,16 +383,16 @@
         // Layer 6: Mouse Navigation
         // Left hand: Modifiers + clipboard shortcuts
         // Right hand: Mouse buttons + movement + scrolling
-        // Top:    Esc  Tab     Cut     Copy    Paste       -       Back    Fwd     -       -
-        // Home:   Gui  Alt     Ctrl    Shft    Enter       -       Ms←     Ms↓     Ms↑     Ms→
-        // Bottom: -    -       -       Undo    Redo        -       Scrl←   Scrl↓   Scrl↑   Scrl→
-        // Thumbs:              MClk    LClk    RClk        RClk    LClk    MClk
+        // Top:    Esc  Tab     Bspc        Enter       Del         -       Back    Fwd     Undo    Redo
+        // Home:   Gui  Alt     Ctrl        Shft        -           -       Ms←     Ms↓     Ms↑     Ms→
+        // Bottom: Cut  Copy    Paste       Select All  Refresh     -       Scrl←   Scrl↓   Scrl↑   Scrl→
+        // Thumbs:              MClk        LClk        RClk        RClk    LClk    MClk
         mouse {
             bindings = <
-                &kp ESC      &kp TAB      &kp LC(X)   &kp LC(C)   &kp LC(V)          &trans         &mkp MB4         &mkp MB5         &trans           &trans
-                &kp LGUI     &kp LALT     &kp LCTRL   &kp LSHFT   &kp ENTER          &trans         &mmv MOVE_LEFT   &mmv MOVE_DOWN   &mmv MOVE_UP     &mmv MOVE_RIGHT
-                &trans       &trans       &trans      &kp LC(Z)   &kp LC(Y)          &trans         &msc SCRL_LEFT   &msc SCRL_DOWN   &msc SCRL_UP     &msc SCRL_RIGHT
-                                          &mkp MB3    &mkp LCLK   &mkp RCLK          &mkp RCLK      &mkp LCLK        &mkp MB3
+                &kp ESC     &kp TAB     &kp BSPC    &kp ENTER   &kp DEL         &trans          &mkp MB4        &mkp MB5         &kp LC(Z)      &kp LC(Y)
+                &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &trans          &trans          &mmv MOVE_LEFT  &mmv MOVE_DOWN   &mmv MOVE_UP   &mmv MOVE_RIGHT
+                &kp LC(X)   &kp LC(C)   &kp LC(V)   &kp LC(A)   &kp LC(R)       &trans          &msc SCRL_LEFT  &msc SCRL_DOWN   &msc SCRL_UP   &msc SCRL_RIGHT
+                                        &mkp MB3    &mkp LCLK   &mkp RCLK       &mkp RCLK       &mkp LCLK       &mkp MB3
             >;
         };
     };
