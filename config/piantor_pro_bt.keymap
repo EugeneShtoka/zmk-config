@@ -53,6 +53,42 @@
             hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
+        // Hyper key (all modifiers) on left hand home row
+        hml_hyper: homerow_hyper_left {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&hyper_mods>, <&kp>;
+            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
+        };
+
+        // Hyper key (all modifiers) on right hand home row
+        hmr_hyper: homerow_hyper_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&hyper_mods>, <&kp>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
+        // Hyper key with td_bracket tap (hold=hyper, tap=bracket tap-dance)
+        hmr_hyper_bracket: homerow_hyper_bracket {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&hyper_mods>, <&td_bracket>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
         // Russian hard/soft sign tap-dance (Ь/Ъ)
         ru_hs: russian_hard_soft {
             compatible = "zmk,behavior-tap-dance";
@@ -170,7 +206,15 @@
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&kp LBRC>, <&kp RBRC>;
+            bindings = <&lbrc_morph>, <&kp RBRC>;
+        };
+
+        // Left brace morphs to underscore when shifted (for caps_word)
+        lbrc_morph: lbrc_underscore {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LBRC>, <&kp UNDER>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         td_bracket: bracket_pair {
@@ -199,14 +243,6 @@
             compatible = "zmk,behavior-caps-word";
             #binding-cells = <0>;
             continue-list = <UNDERSCORE BACKSPACE DELETE>;
-        };
-
-        // Bracket morph: [→] normally, _ when shifted (for caps_word)
-        bracket_morph: bracket_underscore {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&td_bracket>, <&kp UNDER>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
         };
     };
 
@@ -240,7 +276,7 @@
         };
 
         // Toggle mouse layer when both layer 4 modifiers are pressed
-        combo_sym_toggle {
+        combo_mse_toggle {
             timeout-ms = <50>;
             key-positions = <32 33>;  // lt 4 TAB (left thumb) + lt 4 SPACE (right thumb)
             bindings = <&tog 6>;
@@ -255,6 +291,15 @@
     };
 
     macros {
+        // Hyper modifier (all modifiers held until key release)
+        hyper_mods: hyper_mods {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press &kp LCTRL &kp LALT &kp LSHFT &kp LGUI>,
+                       <&macro_pause_for_release>,
+                       <&macro_release &kp LGUI &kp LSHFT &kp LALT &kp LCTRL>;
+        };
+
         // Switch to English (layer 0 + OS Ctrl+Shift+Super+Alt+1)
         switch_en: switch_english {
             compatible = "zmk,behavior-macro";
@@ -297,28 +342,28 @@
         compatible = "zmk,keymap";
 
         // Layer 0: Hands Down Neu with home row mods
-        // Top:    W    F    M    P    V         {→}    `→'    Q    J    Z
+        // Top:    W    F    M    P    V         (→)    `→'    Q    J    Z
         // Home:   R    S    N    T    B         [→]    A      E    I    H
-        // Bottom: X    C    L    D    G         (→)    U      O    Y    K
+        // Bottom: X    C    L    D    G         {→}    U      O    Y    K
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         base {
             bindings = <
-                &kp W         &kp F         &kp M         &kp P         &kp V              &td_brace       &td_grave_quot  &kp Q         &kp J         &kp Z
-                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &kp B              &bracket_morph  &hmr RSHFT A    &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
-                &kp X         &kp C         &kp L         &kp D         &kp G              &td_paren       &kp U           &kp O         &kp Y         &kp K
-                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER     &lt 5 DEL
+                &kp W         &kp F         &kp M         &kp P         &kp V              &td_paren            &td_grave_quot  &kp Q         &kp J         &kp Z
+                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &hml_hyper B       &hmr_hyper_bracket   &hmr RSHFT A  &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
+                &kp X         &kp C         &kp L         &kp D         &kp G              &td_brace            &kp U           &kp O         &kp Y         &kp K
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE          &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
         // Layer 1: Russian (phonetic layout based on Hands Down Neu - requires OS set to Russian ЙЦУКЕН)
-        // Top:    Ш    Ф    М    П    В         Щ      Э      Я      Ж      З
+        // Top:    Ш    Ф    М    П    В         Щ      Я      Э      Ж      З
         // Home:   Р    С    Н    Т    Б         Ы      А      Е/Ё    И/Й    Х
         // Bottom: Ч    Ц    Л    Д    Г         Ь/Ъ    Ю      О      У      К
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         russian {
             bindings = <
-                &kp I         &kp A         &kp V         &kp G         &kp D              &kp O           &kp SQT          &kp Z          &kp SEMI       &kp P
-                &hml LGUI H   &hml LALT C   &hml LCTRL Y  &hml LSHFT N  &kp COMMA          &kp S           &hmr RSHFT F     &hm_ye RCTRL 0 &hm_i RALT 0   &hmr RGUI LBKT
+                &kp I         &kp A         &kp V         &kp D         &kp G              &kp O           &kp SQT          &kp Z          &kp SEMI       &kp P
+                &hml LGUI H   &hml LALT C   &hml LCTRL Y  &hml LSHFT N  &hml_hyper COMMA   &hmr_hyper S    &hmr RSHFT F     &hm_ye RCTRL 0 &hm_i RALT 0   &hmr RGUI LBKT
                 &kp X         &kp W         &kp K         &kp L         &kp U              &ru_hs          &kp DOT          &kp J          &kp E          &kp R
                                             &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
             >;
@@ -331,10 +376,10 @@
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         hebrew {
             bindings = <
-                &kp A         &trans        &he_mem             &he_peh       &kp COMMA         &td_paren       &td_grave_quot   &trans        &kp V         &kp Z
-                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &kp C             &bracket_morph  &hmr RSHFT G     &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
-                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D             &td_brace       &trans           &kp U         &trans        &kp E
-                                            &lt 5 ESC           &lt 3 BSPC    &lt 4 TAB         &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
+                &kp A         &trans        &he_mem             &he_peh       &kp COMMA         &td_paren           &td_grave_quot   &trans        &kp V         &kp Z
+                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &hml_hyper C      &hmr_hyper_bracket  &hmr RSHFT G  &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
+                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D             &td_brace           &trans           &kp U         &trans        &kp E
+                                            &lt 5 ESC           &lt 3 BSPC    &lt 4 TAB         &lt 4 SPACE         &lt 3 ENTER      &lt 5 DEL
             >;
         };
 
@@ -360,7 +405,7 @@
         sym {
             bindings = <
                 &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT           &td_paren       &td_grave_quot      &kp QMARK           &kp AMPS         &kp STAR
-                &hml LGUI COLON   &hml LALT SLASH   &not_equal        &hml LSHFT TILDE  &kp BSLH            &bracket_morph  &hmr RSHFT EQUAL    &hmr RCTRL DLLR     &hmr RALT CARET  &hmr RGUI PIPE
+                &hml LGUI COLON   &hml LALT SLASH   &not_equal        &hml LSHFT TILDE  &kp BSLH            &td_bracket     &hmr RSHFT EQUAL    &hmr RCTRL DLLR     &hmr RALT CARET  &hmr RGUI PIPE
                 &kp EXCL          &kp COMMA         &kp LT            &kp DOT           &kp GT              &td_brace       &kp UNDER           &kp SEMI            &kp HASH         &kp DQT
                                                     &trans            &trans            &trans              &trans          &trans              &trans
             >;
