@@ -56,7 +56,7 @@
         // Hyper key (all modifiers) on left hand home row
         hml_hyper: homerow_hyper_left {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
@@ -68,7 +68,7 @@
         // Hyper key (all modifiers) on right hand home row
         hmr_hyper: homerow_hyper_right {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
@@ -80,7 +80,7 @@
         // Hyper key with td_bracket tap (hold=hyper, tap=bracket tap-dance)
         hmr_hyper_bracket: homerow_hyper_bracket {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
@@ -348,10 +348,10 @@
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         base {
             bindings = <
-                &kp W         &kp F         &kp M         &kp P         &kp V              &td_paren            &td_grave_quot  &kp Q         &kp J         &kp Z
-                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &hml_hyper B       &hmr_hyper_bracket   &hmr RSHFT A  &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
-                &kp X         &kp C         &kp L         &kp D         &kp G              &td_brace            &kp U           &kp O         &kp Y         &kp K
-                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE          &lt 3 ENTER     &lt 5 DEL
+                &kp W         &kp F         &kp M         &kp P         &kp V              &td_paren                &td_grave_quot  &kp Q         &kp J         &kp Z
+                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &hml_hyper 0 B     &hmr_hyper_bracket 0 0   &hmr RSHFT A    &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
+                &kp X         &kp C         &kp L         &kp D         &kp G              &td_brace                &kp U           &kp O         &kp Y         &kp K
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE              &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
@@ -362,10 +362,10 @@
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         russian {
             bindings = <
-                &kp I         &kp A         &kp V         &kp D         &kp G              &kp O           &kp SQT          &kp Z          &kp SEMI       &kp P
-                &hml LGUI H   &hml LALT C   &hml LCTRL Y  &hml LSHFT N  &hml_hyper COMMA   &hmr_hyper S    &hmr RSHFT F     &hm_ye RCTRL 0 &hm_i RALT 0   &hmr RGUI LBKT
-                &kp X         &kp W         &kp K         &kp L         &kp U              &ru_hs          &kp DOT          &kp J          &kp E          &kp R
-                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
+                &kp I         &kp A         &kp V         &kp D         &kp G                   &kp O           &kp SQT          &kp Z          &kp SEMI       &kp P
+                &hml LGUI H   &hml LALT C   &hml LCTRL Y  &hml LSHFT N  &hml_hyper 0 COMMA      &hmr_hyper 0 S  &hmr RSHFT F     &hm_ye RCTRL 0 &hm_i RALT 0   &hmr RGUI LBKT
+                &kp X         &kp W         &kp K         &kp L         &kp U                   &ru_hs          &kp DOT          &kp J          &kp E          &kp R
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB               &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
             >;
         };
 
@@ -376,10 +376,10 @@
         // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
         hebrew {
             bindings = <
-                &kp A         &trans        &he_mem             &he_peh       &kp COMMA         &td_paren           &td_grave_quot   &trans        &kp V         &kp Z
-                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &hml_hyper C      &hmr_hyper_bracket  &hmr RSHFT G  &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
-                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D             &td_brace           &trans           &kp U         &trans        &kp E
-                                            &lt 5 ESC           &lt 3 BSPC    &lt 4 TAB         &lt 4 SPACE         &lt 3 ENTER      &lt 5 DEL
+                &kp A         &trans        &he_mem             &he_peh       &kp COMMA             &td_paren               &td_grave_quot  &trans        &kp V         &kp Z
+                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &hml_hyper 0 C        &hmr_hyper_bracket 0 0  &hmr RSHFT G    &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
+                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D                 &td_brace               &trans          &kp U         &trans        &kp E
+                                            &lt 5 ESC           &lt 3 BSPC    &lt 4 TAB             &lt 4 SPACE             &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
