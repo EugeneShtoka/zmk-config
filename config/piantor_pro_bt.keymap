@@ -61,7 +61,7 @@
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
             flavor = "balanced";
-            bindings = <&hyper_mods>, <&kp>;
+            bindings = <&hyper_mods_left>, <&kp>;
             hold-trigger-key-positions = <KEYS_R THUMBS_R>;
         };
 
@@ -73,7 +73,7 @@
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
             flavor = "balanced";
-            bindings = <&hyper_mods>, <&kp>;
+            bindings = <&hyper_mods_right>, <&kp>;
             hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
@@ -85,7 +85,7 @@
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
             flavor = "balanced";
-            bindings = <&hyper_mods>, <&td_bracket>;
+            bindings = <&hyper_mods_right>, <&td_bracket>;
             hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
@@ -291,13 +291,22 @@
     };
 
     macros {
-        // Hyper modifier (all modifiers held until key release)
-        hyper_mods: hyper_mods {
+        // Hyper modifier with left modifiers (for left hand)
+        hyper_mods_left: hyper_mods_left {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&macro_press &kp LCTRL &kp LALT &kp LSHFT &kp LGUI>,
                        <&macro_pause_for_release>,
                        <&macro_release &kp LGUI &kp LSHFT &kp LALT &kp LCTRL>;
+        };
+
+        // Hyper modifier with right modifiers (for right hand)
+        hyper_mods_right: hyper_mods_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press &kp RCTRL &kp RALT &kp RSHFT &kp RGUI>,
+                       <&macro_pause_for_release>,
+                       <&macro_release &kp RGUI &kp RSHFT &kp RALT &kp RCTRL>;
         };
 
         // Switch to English (layer 0 + OS Ctrl+Shift+Super+Alt+1)
