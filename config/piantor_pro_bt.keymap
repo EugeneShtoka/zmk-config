@@ -1,126 +1,470 @@
 /*
- * Copyright (c) 2020 The ZMK Contributors
+ * Piantor 36-key Layout - Miryoku based on Hands Down Neu
  *
- * SPDX-License-Identifier: MIT
+ * Layer 0: Hands Down Neu (base) with home row mods
+ * Layer 1: Russian
+ * Layer 2: Hebrew
+ * Layer 3: Numbers & Navigation
+ * Layer 4: Symbols
+ * Layer 5: Function keys & Bluetooth
+ * Layer 6: Mouse Navigation
  */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/mouse.h>
+
+// Key position groups for 36-key layout
+#define KEYS_L 0 1 2 3 4 10 11 12 13 14 20 21 22 23 24  // left hand keys
+#define KEYS_R 5 6 7 8 9 15 16 17 18 19 25 26 27 28 29  // right hand keys
+#define THUMBS_L 30 31 32  // left thumb keys
+#define THUMBS_R 33 34 35  // right thumb keys
 
 / {
     chosen {
         zmk,physical-layout = &default_layout;
     };
-};
 
-/ {
+    behaviors {
+        // Left hand home row mods with chordal hold
+        hml: homerow_mods_left {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
+        };
+
+        // Right hand home row mods with chordal hold
+        hmr: homerow_mods_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
+        // Hyper key (all modifiers) on left hand home row
+        hml_hyper: homerow_hyper_left {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&hyper_mods_left>, <&kp>;
+            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
+        };
+
+        // Hyper key (all modifiers) on right hand home row
+        hmr_hyper: homerow_hyper_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&hyper_mods_right>, <&kp>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
+        // Hyper key with td_bracket tap (hold=hyper, tap=bracket tap-dance)
+        hmr_hyper_bracket: homerow_hyper_bracket {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&hyper_mods_right>, <&td_bracket>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
+        // Russian hard/soft sign tap-dance (Ь/Ъ)
+        ru_hs: russian_hard_soft {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp M>, <&kp RBKT>;
+        };
+
+        // Russian ye/yo tap-dance (Е/Ё)
+        ru_ye: russian_ye_yo {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp T>, <&kp GRAVE>;
+        };
+
+        // Russian i/short-i tap-dance (И/Й)
+        ru_i: russian_i_short {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp B>, <&kp Q>;
+        };
+
+        // Hebrew peh/final-peh tap-dance (פ/ף)
+        he_peh: hebrew_peh_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp P>, <&kp SEMI>;
+        };
+
+        // Hebrew mem/final-mem tap-dance (מ/ם)
+        he_mem: hebrew_mem_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp N>, <&kp O>;
+        };
+
+        // Hebrew nun/final-nun tap-dance (נ/ן)
+        he_nun: hebrew_nun_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp B>, <&kp I>;
+        };
+
+        // Hebrew tsadi/final-tsadi tap-dance (צ/ץ)
+        he_tsadi: hebrew_tsadi_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp M>, <&kp DOT>;
+        };
+
+        // Hebrew kaf/final-kaf tap-dance (כ/ך)
+        he_kaf: hebrew_kaf_final {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp F>, <&kp L>;
+        };
+
+        // Home row mod with ye/yo tap-dance (hold=Shift, tap=Е/Ё)
+        hm_ye: homerow_ye {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&ru_ye>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
+        // Home row mod with i/short-i tap-dance (hold=Ctrl, tap=И/Й)
+        hm_i: homerow_i {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&ru_i>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
+        // Home row mod with nun/final-nun tap-dance (hold=Ctrl, tap=נ/ן)
+        hm_nun: homerow_nun {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&he_nun>;
+            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
+        };
+
+        // Home row mod with kaf/final-kaf tap-dance (hold=Gui, tap=כ/ך)
+        hm_kaf: homerow_kaf {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            flavor = "balanced";
+            bindings = <&kp>, <&he_kaf>;
+            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
+        };
+
+        // Bracket/brace tap-dances
+        td_brace: brace_pair {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&lbrc_morph>, <&kp RBRC>;
+        };
+
+        // Left brace morphs to underscore when shifted (for caps_word)
+        lbrc_morph: lbrc_underscore {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LBRC>, <&kp UNDER>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        td_bracket: bracket_pair {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp LBKT>, <&kp RBKT>;
+        };
+
+        td_paren: paren_pair {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp LPAR>, <&kp RPAR>;
+        };
+
+        td_grave_quot: grave_quot {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp GRAVE>, <&kp APOS>;
+        };
+
+        // Dollar/Euro tap-dance ($→€)
+        td_dollar: dollar_euro {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp DLLR>, <&euro_sign>;
+        };
+
+        // Custom caps_word that continues on underscore, backspace, and delete
+        caps_word {
+            compatible = "zmk,behavior-caps-word";
+            #binding-cells = <0>;
+            continue-list = <UNDERSCORE BACKSPACE DELETE>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        // Language switching combos
+        combo_switch_russian {
+            timeout-ms = <50>;
+            key-positions = <2 3>;  // M + P
+            bindings = <&switch_ru>;
+        };
+
+        combo_switch_english {
+            timeout-ms = <50>;
+            key-positions = <12 13>;  // N + T
+            bindings = <&switch_en>;
+        };
+
+        combo_switch_hebrew {
+            timeout-ms = <50>;
+            key-positions = <22 23>;  // L + D
+            bindings = <&switch_he>;
+        };
+
+        // Toggle nav_num layer when both layer 3 modifiers are pressed
+        combo_nav_num_toggle {
+            timeout-ms = <50>;
+            key-positions = <31 34>;  // lt 3 BSPC (left thumb) + lt 3 ENTER (right thumb)
+            bindings = <&tog 3>;
+        };
+
+        // Toggle mouse layer when both layer 4 modifiers are pressed
+        combo_mse_toggle {
+            timeout-ms = <50>;
+            key-positions = <32 33>;  // lt 4 TAB (left thumb) + lt 4 SPACE (right thumb)
+            bindings = <&tog 6>;
+        };
+
+        // Activate caps_word when both layer 5 modifiers are pressed
+        combo_fun_toggle {
+            timeout-ms = <50>;
+            key-positions = <30 35>;  // lt 5 ESC (left thumb) + lt 5 DEL (right thumb)
+            bindings = <&caps_word>;
+        };
+    };
+
+    macros {
+        // Hyper modifier with left modifiers (for left hand)
+        hyper_mods_left: hyper_mods_left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press &kp LCTRL &kp LALT &kp LSHFT &kp LGUI>,
+                       <&macro_pause_for_release>,
+                       <&macro_release &kp LGUI &kp LSHFT &kp LALT &kp LCTRL>;
+        };
+
+        // Hyper modifier with right modifiers (for right hand)
+        hyper_mods_right: hyper_mods_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press &kp RCTRL &kp RALT &kp RSHFT &kp RGUI>,
+                       <&macro_pause_for_release>,
+                       <&macro_release &kp RGUI &kp RSHFT &kp RALT &kp RCTRL>;
+        };
+
+        // Switch to English (layer 0 + OS Ctrl+Shift+Super+Alt+1)
+        switch_en: switch_english {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0 &macro_press &kp LCTRL &kp LSHFT &kp LGUI &kp LALT &macro_tap &kp N1 &macro_release &kp LCTRL &kp LSHFT &kp LGUI &kp LALT>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+        };
+
+        // Switch to Russian (layer 1 + OS Ctrl+Shift+Super+Alt+2)
+        switch_ru: switch_russian {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 1 &macro_press &kp LCTRL &kp LSHFT &kp LGUI &kp LALT &macro_tap &kp N2 &macro_release &kp LCTRL &kp LSHFT &kp LGUI &kp LALT>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+        };
+
+        // Switch to Hebrew (layer 2 + OS Ctrl+Shift+Super+Alt+3)
+        switch_he: switch_hebrew {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 2 &macro_press &kp LCTRL &kp LSHFT &kp LGUI &kp LALT &macro_tap &kp N3 &macro_release &kp LCTRL &kp LSHFT &kp LGUI &kp LALT>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+        };
+
+        // Euro sign (€) via Linux Unicode input: Ctrl+Shift+U 20ac Enter
+        euro_sign: euro_sign_macro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press &kp LCTRL &kp LSHFT>, <&macro_tap &kp U>, <&macro_release &kp LCTRL &kp LSHFT>,
+                       <&kp N2>, <&kp N0>, <&kp A>, <&kp C>, <&kp ENTER>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+        };
+
+        // Not equal operator (!=)
+        not_equal: not_equal_operator {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp EXCL>, <&kp EQUAL>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+        };
+
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
-            display-name = "QWERTY";
-            // --------------------------------------------------------------------------------
-            // |  TAB |  Q  |  W  |  E  |  R  |  T  |  Y  |  U   |  I  |  O  |  P  | BSPC |
-            // | CTRL |  A  |  S  |  D  |  F  |  G  |  H  |  J   |  K  |  L  |  ;  |  '   |
-            // | SHFT |  Z  |  X  |  C  |  V  |  B  |  N  |  M   |  ,  |  .  |  /  | ESC  |
-            //                    | GUI | LWR | SPC | ENT | RSE  | ALT |
+        // Layer 0: Hands Down Neu with home row mods
+        // Top:    W    F    M    P    V         (→)    `→'    Q    J    Z
+        // Home:   R    S    N    T    B         [→]    A      E    I    H
+        // Bottom: X    C    L    D    G         {→}    U      O    Y    K
+        // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
+        base {
             bindings = <
-                &kp TAB   &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
-                &kp LCTRL &kp A &kp S &kp D &kp F &kp G &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
-                &kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp ESC
-                               &kp LGUI &mo 1 &kp SPACE &kp RET &mo 2 &kp RALT
+                &kp W         &kp F         &kp M         &kp P         &kp V              &td_paren                &td_grave_quot  &kp Q         &kp J         &kp Z
+                &hml LGUI R   &hml LALT S   &hml LCTRL N  &hml LSHFT T  &hml_hyper 0 B     &hmr_hyper_bracket 0 0   &hmr RSHFT A    &hmr RCTRL E  &hmr RALT I   &hmr RGUI H
+                &kp X         &kp C         &kp L         &kp D         &kp G              &td_brace                &kp U           &kp O         &kp Y         &kp K
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB          &lt 4 SPACE              &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
-        lower_layer {
-            display-name = "NUMBER";
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  1  |  2  |  3  |  4  |  5    |  6  |  7  |  8  |  9  |  0  | BSPC |
-            // | CTRL | BT1 | BT2 | BT3 | BT4 | BT5   | LFT | DWN |  UP | RGT |     |      |
-            // | SHFT | BTCR| RGB | RST | BOOT| Unlock|     |     |     |     |     |      |
-            //                    | GUI |     | SPC   | ENT |     | ALT |
+        // Layer 1: Russian (phonetic layout based on Hands Down Neu - requires OS set to Russian ЙЦУКЕН)
+        // Top:    Ш    Ф    М    П    В         Щ      Я      Э      Ж      З
+        // Home:   Р    С    Н    Т    Б         Ы      А      Е/Ё    И/Й    Х
+        // Bottom: Ч    Ц    Л    Д    Г         Ь/Ъ    Ю      О      У      К
+        // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
+        russian {
             bindings = <
-                &kp TAB   &kp N1       &kp N2          &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-                &kp LCTRL &bt BT_SEL 0 &bt BT_SEL 1    &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-                &kp LSHFT &bt BT_CLR   &rgb_ug RGB_TOG &sys_reset   &bootloader  &studio_unlock &trans   &trans   &trans &trans    &trans &trans
-                                                       &kp LGUI     &trans       &kp SPACE      &kp LGUI &trans   &kp SPACE
+                &kp I         &kp A         &kp V         &kp D         &kp G                   &kp O           &kp SQT          &kp Z          &kp SEMI       &kp P
+                &hml LGUI H   &hml LALT C   &hml LCTRL Y  &hml LSHFT N  &hml_hyper 0 COMMA      &hmr_hyper 0 S  &hmr RSHFT F     &hm_ye RCTRL 0 &hm_i RALT 0   &hmr RGUI LBKT
+                &kp X         &kp W         &kp K         &kp L         &kp U                   &ru_hs          &kp DOT          &kp J          &kp E          &kp R
+                                            &lt 5 ESC     &lt 3 BSPC    &lt 4 TAB               &lt 4 SPACE     &lt 3 ENTER      &lt 5 DEL
             >;
         };
 
-        raise_layer {
-            display-name = "SYMBOL";
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  !  |  @  |  #  |  $  |  %  |  ^  |  &  |  *  |  (  |  )  | BSPC |
-            // | CTRL |     |     |     |     |     |  -  |  =  |  [  |  ]  |  \  |  `   |
-            // | SHFT |     |     |     |     |     |  _  |  +  |  {  |  }  | "|" |  ~   |
-            //                    | GUI |     | SPC | ENT |     | ALT |
+        // Layer 2: Hebrew (phonetic layout based on Hands Down Neu - requires OS set to Hebrew)
+        // Top:    ש    -    מ/ם  פ/ף  ת         (→)    `→'    -      ה      ז
+        // Home:   ר    ס    נ/ן  ט    ב         [→]    ע      א      י      ח
+        // Bottom: כ/ך  צ/ץ  ל    ד    ג         {→}    -      ו      -      ק
+        // Thumbs:           Esc  Bspc Tab       Spc    Ent    Del
+        hebrew {
             bindings = <
-                &kp  TAB  &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT  &kp CARET &kp AMPS &kp ASTRK &kp LPAR &kp RPAR &kp BSPC
-                &kp LCTRL &trans   &trans &trans   &trans   &trans     &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH &kp GRAVE
-                &kp LSHFT &trans   &trans &trans   &trans   &trans     &kp UNDER &kp PLUS  &kp LBRC &kp RBRC &kp PIPE &kp TILDE
-                                          &kp LGUI &trans   &kp SPACE  &kp RET   &trans    &kp RALT
+                &kp A         &trans        &he_mem             &he_peh       &kp COMMA             &td_paren               &td_grave_quot  &trans        &kp V         &kp Z
+                &hml LGUI R   &hml LALT X   &hm_nun LCTRL 0     &hml LSHFT Y  &hml_hyper 0 C        &hmr_hyper_bracket 0 0  &hmr RSHFT G    &hmr RCTRL T  &hmr RALT H   &hmr RGUI J
+                &he_kaf       &he_tsadi     &kp K               &kp S         &kp D                 &td_brace               &trans          &kp U         &trans        &kp E
+                                            &lt 5 ESC           &lt 3 BSPC    &lt 4 TAB             &lt 4 SPACE             &lt 3 ENTER     &lt 5 DEL
             >;
         };
 
-        extra_layer_1 {
-            display-name = "EXTRA 1";
+        // Layer 3: Numbers
+        // Top:    +        -       *       /       ^           (->)    "       sqrt    l       e
+        // Home:   1        2       3       4       5           6       7       8       9       0
+        // Bottom: Home     PgDn    PgUp    End     Ins         =       ←       ↓       ↑       →
+        // Thumbs:                  -       -       -           -       -       -
+        nav_num {
             bindings = <
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                                     &trans &trans &trans  &trans &trans &trans       
+                &kp PLUS         &kp MINUS        &kp STAR         &kp SLASH        &kp CARET          &td_paren    &kp DQT          &trans             &kp L               &kp E
+                &hml LGUI N1     &hml LALT N2     &hml LCTRL N3    &hml LSHFT N4    &kp N5             &kp N6       &hmr RSHFT N7    &hmr RCTRL N8      &hmr RALT N9        &hmr RGUI N0
+                &kp HOME         &kp PG_DN        &kp PG_UP        &kp END          &kp INS            &kp EQUAL    &kp LEFT         &kp DOWN           &kp UP              &kp RIGHT
+                                                  &trans           &trans           &trans             &trans       &trans           &trans
             >;
         };
 
-        extra_layer_2 {
-            display-name = "EXTRA 2";
+        // Layer 4: Symbols & Punctuation
+        // Top:    @    #    -    +    %         (→)    `→'    ?      $      *
+        // Home:   :    /    !=   ~    \         [→]    &      =      ^      |
+        // Bottom: !    ,    <    .    >         {→}    _      ;      #      "
+        // Thumbs:           -    -    -         -      -      -
+        sym {
             bindings = <
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                                     &trans &trans &trans  &trans &trans &trans       
+                &kp AT            &kp HASH          &kp MINUS         &kp PLUS          &kp PRCNT           &td_paren       &td_grave_quot      &kp QMARK           &td_dollar       &kp STAR
+                &hml LGUI COLON   &hml LALT SLASH   &not_equal        &hml LSHFT TILDE  &kp BSLH            &td_bracket     &hmr RSHFT AMPS     &hmr RCTRL EQUAL    &hmr RALT CARET  &hmr RGUI PIPE
+                &kp EXCL          &kp COMMA         &kp LT            &kp DOT           &kp GT              &td_brace       &kp UNDER           &kp SEMI            &kp HASH         &kp DQT
+                                                    &trans            &trans            &trans              &trans          &trans              &trans
             >;
         };
 
-        extra_layer_3 {
-            display-name = "EXTRA 3";
+        // Layer 5: Function keys, Bluetooth & Media
+        // Top:    F1   F2   F3   F4   F5        F6     F7     F8     F9     F10
+        // Home:   Mute Vol- Vol+ Shft RGB       -      Bri-   Bri+   F11    F12
+        // Bottom: Play Pause Stop Prev Next     BTClr  BT0    BT1    S-PSc  PScrn
+        // Thumbs:           -    -    -         -      -      -
+        fun_bt {
             bindings = <
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                                     &trans &trans &trans  &trans &trans &trans       
+                &kp F1            &kp F2              &kp F3               &kp F4      &kp F5                  &kp F6          &kp F7               &kp F8               &kp F9            &kp F10
+                &hml LGUI C_MUTE  &hml LALT C_VOL_DN  &hml LCTRL C_VOL_UP  &kp LSHFT   &rgb_ug RGB_TOG         &trans          &hmr RSHFT C_BRI_DN  &hmr RCTRL C_BRI_UP  &hmr RALT F11     &hmr RGUI F12
+                &kp C_PLAY        &kp C_PAUSE         &kp C_STOP           &kp C_PREV  &kp C_NEXT              &bt BT_CLR      &bt BT_SEL 0         &bt BT_SEL 1         &kp LS(PSCRN)     &kp PSCRN
+                                                      &trans               &trans      &trans                  &trans          &trans               &trans
             >;
         };
 
-        extra_layer_4 {
-            display-name = "EXTRA 4";
+        // Layer 6: Mouse Navigation
+        // Left hand: Modifiers + clipboard shortcuts
+        // Right hand: Mouse buttons + movement + scrolling
+        // Top:    Esc  Tab     Bspc        Enter       Del         -       Back    Fwd     Undo    Redo
+        // Home:   Gui  Alt     Ctrl        Shft        -           -       Ms←     Ms↓     Ms↑     Ms→
+        // Bottom: Cut  Copy    Paste       Select All  Refresh     -       Scrl←   Scrl↓   Scrl↑   Scrl→
+        // Thumbs:              MClk        LClk        RClk        RClk    LClk    MClk
+        mouse {
             bindings = <
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                                     &trans &trans &trans  &trans &trans &trans       
-            >;
-        };
-
-        extra_layer_5 {
-            display-name = "EXTRA 5";
-            bindings = <
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                                     &trans &trans &trans  &trans &trans &trans       
-            >;
-        };
-
-        extra_layer_6 {
-            display-name = "EXTRA 6";
-            bindings = <
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                                     &trans &trans &trans  &trans &trans &trans       
+                &kp ESC     &kp TAB     &kp BSPC    &kp ENTER   &kp DEL         &trans          &mkp MB4        &mkp MB5         &kp LC(Z)      &kp LC(Y)
+                &kp LGUI    &kp LALT    &kp LCTRL   &kp LSHFT   &trans          &trans          &mmv MOVE_LEFT  &mmv MOVE_DOWN   &mmv MOVE_UP   &mmv MOVE_RIGHT
+                &kp LC(X)   &kp LC(C)   &kp LC(V)   &kp LC(A)   &kp LC(R)       &trans          &msc SCRL_LEFT  &msc SCRL_DOWN   &msc SCRL_UP   &msc SCRL_RIGHT
+                                        &mkp MB3    &mkp LCLK   &mkp RCLK       &mkp RCLK       &mkp LCLK       &mkp MB3
             >;
         };
     };
