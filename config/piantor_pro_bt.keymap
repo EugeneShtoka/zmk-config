@@ -17,12 +17,6 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/mouse.h>
 
-// Key position groups for 36-key layout
-#define KEYS_L 0 1 2 3 4 10 11 12 13 14 20 21 22 23 24  // left hand keys
-#define KEYS_R 5 6 7 8 9 15 16 17 18 19 25 26 27 28 29  // right hand keys
-#define THUMBS_L 30 31 32  // left thumb keys
-#define THUMBS_R 33 34 35  // right thumb keys
-
 / {
     chosen {
         zmk,physical-layout = &default_layout;
@@ -179,17 +173,6 @@
             require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&he_nun>;
-        };
-
-        // Home row mod with kaf/final-kaf tap-dance (hold=Gui, tap=כ/ך)
-        hm_kaf: homerow_kaf {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <100>;
-            flavor = "balanced";
-            bindings = <&kp>, <&he_kaf>;
         };
 
         // Layer-tap for sym/nav layers from Hebrew (switches OS to English on hold)
