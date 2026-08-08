@@ -29,28 +29,26 @@
     };
 
     behaviors {
-        // Left hand home row mods with chordal hold
+        // Left hand home row mods
         hml: homerow_mods_left {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
-            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
         };
 
-        // Right hand home row mods with chordal hold
+        // Right hand home row mods
         hmr: homerow_mods_right {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
-            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
         // Hyper key (all modifiers) on left hand home row
@@ -59,10 +57,9 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&hyper_mods_left>, <&kp>;
-            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
         };
 
         // Hyper key (all modifiers) on right hand home row
@@ -71,10 +68,9 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&hyper_mods_right>, <&kp>;
-            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
         // Hyper key with td_bracket tap (hold=hyper, tap=bracket tap-dance)
@@ -83,10 +79,9 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&hyper_mods_right>, <&td_bracket>;
-            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
         // Russian hard/soft sign tap-dance (Ь/Ъ)
@@ -159,10 +154,9 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&ru_ye>;
-            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
         // Home row mod with i/short-i tap-dance (hold=Ctrl, tap=И/Й)
@@ -171,10 +165,9 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&ru_i>;
-            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
         // Home row mod with nun/final-nun tap-dance (hold=Ctrl, tap=נ/ן)
@@ -183,10 +176,9 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&he_nun>;
-            hold-trigger-key-positions = <KEYS_R THUMBS_R>;
         };
 
         // Home row mod with kaf/final-kaf tap-dance (hold=Gui, tap=כ/ך)
@@ -195,10 +187,9 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&kp>, <&he_kaf>;
-            hold-trigger-key-positions = <KEYS_L THUMBS_L>;
         };
 
         // Layer-tap for sym/nav layers from Hebrew (switches OS to English on hold)
